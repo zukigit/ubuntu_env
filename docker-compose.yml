@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+
+  ubuntu22:
+    image: zukidocker/oss:ubuntu22_env
+    container_name: ubuntu22_env
+    volumes:
+      - ./ubuntu:/home/moon/ubuntu
