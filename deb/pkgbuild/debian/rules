@@ -1,0 +1,79 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	chmod -R a+rX .
+	chmod -R a+x configure
+	chmod -R a+x install-gen.sh
+
+override_dh_auto_build:
+	./install-gen.sh
+	
+	# Fix up some lib64 issues
+	perl -pi.orig -e 's|_LIBDIR=/usr/lib|_LIBDIR=$(DEB_HOST_MULTIARCH)|g' configure
+
+	./configure --enable-agent --enable-server --with-mysql
+	make clean all
+	make
+
+	mv src/jobarg_server/jobarg_server src/jobarg_server/jobarg_server_mysql
+	mv src/jobarg_monitor/jobarg_monitor src/jobarg_monitor/jobarg_monitor_mysql
+	mv src/jobarg_session/jobarg_session src/jobarg_session/jobarg_session_mysql
+
+	./configure --enable-agent --enable-server --with-postgresql
+	make clean all
+	make
+
+	mv src/jobarg_server/jobarg_server src/jobarg_server/jobarg_server_postgresql
+	mv src/jobarg_monitor/jobarg_monitor src/jobarg_monitor/jobarg_monitor_postgresql
+	mv src/jobarg_session/jobarg_session src/jobarg_session/jobarg_session_postgresql
+	touch src/jobarg_server/jobarg_server
+	touch src/jobarg_monitor/jobarg_monitor
+	touch src/jobarg_session/jobarg_session
+
+	mkdir -p $(CURDIR)/debian/man
+	cp man/* $(CURDIR)/debian/man/
+
+	sudo make install
+
+override_dh_auto_install:
+	dh_auto_install --destdir=$(CURDIR)/debian/tmpdir
+
+# Set up some required directories
+	mkdir -p $(CURDIR)/debian/etc/logrotate.d
+	mkdir -p $(CURDIR)/debian/usr/share
+	mkdir -p $(CURDIR)/debian/var/log/jobarranger
+	mkdir -p $(CURDIR)/debian/var/run/jobarranger
+	mkdir -p $(CURDIR)/debian/var/lib/jobarranger
+	mkdir -p $(CURDIR)/debian/var/lib/jobarranger/tmp
+	mkdir -p $(CURDIR)/debian/lib/systemd/system/
+	mkdir -p $(CURDIR)/debian/var/run/jobarranger
+	mkdir -p $(CURDIR)/debian/etc/tmpfiles.d
+	mkdir -p $(CURDIR)/debian/usr/lib/systemd/system/
+	mkdir -p $(CURDIR)/debian/usr/sbin/
+	mkdir -p $(CURDIR)/debian/etc/jobarranger/extendedjob
+
+# Init scripts
+	install -m 0644 -p misc/service/jobarg-agentd.service $(CURDIR)/debian/usr/lib/systemd/system/
+	install -m 0644 -p misc/service/jobarg-server.service $(CURDIR)/debian/usr/lib/systemd/system/
+	install -m 0644 -p misc/service/jobarg-monitor.service $(CURDIR)/debian/usr/lib/systemd/system/
+	install -m 0644 -p misc/service/jobarranger.conf $(CURDIR)/debian/etc/tmpfiles.d/
+
+# Log rotation
+	cat misc/logrotate/jobarg-logrotate.in | sed -e 's|COMPONENT|server|g' > $(CURDIR)/debian/etc/logrotate.d/jobarg-server
+	cat misc/logrotate/jobarg-logrotate.in | sed -e 's|COMPONENT|monitor|g' > $(CURDIR)/debian/etc/logrotate.d/jobarg-monitor
+	cat misc/logrotate/jobarg-logrotate.in | sed -e 's|COMPONENT|agent|g' > $(CURDIR)/debian/etc/logrotate.d/jobarg-agentd
+    
+# Install new binaries
+	install -m 0755 -p src/jobarg_server/jobarg_server_mysql debian/usr/sbin/
+	install -m 0755 -p src/jobarg_server/jobarg_server_postgresql debian/usr/sbin/
+	install -m 0755 -p src/jobarg_monitor/jobarg_monitor_mysql debian/usr/sbin/
+	install -m 0755 -p src/jobarg_monitor/jobarg_monitor_postgresql debian/usr/sbin/
+	install -m 0755 -p src/jobarg_session/jobarg_session_mysql debian/etc/jobarranger/extendedjob/
+	install -m 0755 -p src/jobarg_session/jobarg_session_postgresql debian/etc/jobarranger/extendedjob/
+
+override_dh_clean:
+	dh_clean
+

@@ -1,0 +1,25 @@
+Source: jobarranger
+Section: net
+Priority: optional
+Maintainer: Daiwa Institute of Research Business Innovation Ltd.
+Build-Depends: debhelper (>= 9), default-libmysqlclient-dev, libpq-dev, libssh2-1-dev (>= 1.0.0)
+Homepage: https://www.jobarranger.info/redmine/
+
+Package: jobarranger-agentd
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}, logrotate, adduser, systemd
+Pre-Depends: ${misc:Pre-Depends}
+Description: Job Arranger agentd
+ The Job Arranger agentd, to be installed on systems.
+
+Package: jobarranger-server-mysql
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}, logrotate, libssh2-1 (>= 1.0.0), mysql-client | default-mysql-client
+Conflicts: jobarranger-server-postgresql
+Description: Job Arranger server compiled to use MySQL
+
+Package: jobarranger-server-postgresql
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}, logrotate, libssh2-1 (>= 1.0.0), postgresql-client | postgresql-client-12
+Conflicts: jobarranger-server-mysql
+Description: Job Arranger server compiled to use PostgresSQL

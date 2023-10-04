@@ -1,0 +1,5 @@
+debian/tmpdir/usr/local/share/man/man1/jobarg_exec.1
+debian/tmpdir/usr/local/share/man/man1/jobarg_get.1
+debian/tmpdir/usr/local/share/man/man1/jobarg_joblogput.1
+debian/tmpdir/usr/local/share/man/man1/jobarg_release.1
+debian/tmpdir/usr/local/share/man/man8/jobarg_server.8

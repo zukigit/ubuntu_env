@@ -1,0 +1,7 @@
+jobarranger-agentd-dbgsym_6.1.0-1+debian11_amd64.deb debug optional automatic=yes
+jobarranger-agentd_6.1.0-1+debian11_amd64.deb net optional
+jobarranger-server-mysql-dbgsym_6.1.0-1+debian11_amd64.deb debug optional automatic=yes
+jobarranger-server-mysql_6.1.0-1+debian11_amd64.deb net optional
+jobarranger-server-postgresql-dbgsym_6.1.0-1+debian11_amd64.deb debug optional automatic=yes
+jobarranger-server-postgresql_6.1.0-1+debian11_amd64.deb net optional
+jobarranger_6.1.0-1+debian11_amd64.buildinfo net optional

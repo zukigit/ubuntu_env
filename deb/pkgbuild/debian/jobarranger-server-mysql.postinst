@@ -1,0 +1,69 @@
+#!/bin/bash
+
+if [ "$1" = "configure" ]; then
+  if [ ! -f /usr/sbin/jobarg_server ]; then
+     cd /usr/sbin
+     ln -s jobarg_server_mysql jobarg_server || :
+     ln -s jobarg_monitor_mysql jobarg_monitor || :
+  fi
+  if [ ! -f /etc/jobarranger/extendedjob/jobarg_session ]; then
+     cd /etc/jobarranger/extendedjob
+     ln -s jobarg_session_mysql jobarg_session || :
+  fi
+
+  file="/etc/tmpfiles.d/jobarranger.conf"
+
+  if [ ! -f "$file" ]; then
+	echo "# jobarranger runtime directory
+	d /run/jobarranger 0755 zabbix zabbix -" > "$file"
+	chmod 0644 /etc/tmpfiles.d/jobarranger.conf
+	chown root:root /etc/tmpfiles.d/jobarranger.conf
+  fi
+
+fi
+
+# Set ownership and permissions
+chmod 0755 /var/log/jobarranger/
+chown zabbix:zabbix /var/log/jobarranger/
+chmod 0755 /var/run/jobarranger/
+chown zabbix:zabbix /var/run/jobarranger/
+chmod 0755 /var/lib/jobarranger/tmp/
+chown zabbix:zabbix /var/lib/jobarranger/tmp/
+chmod 0755 /etc/logrotate.d/jobarg-server
+chown zabbix:zabbix /etc/logrotate.d/jobarg-server
+chmod 0755 /etc/logrotate.d/jobarg-monitor
+chown zabbix:zabbix /etc/logrotate.d/jobarg-monitor
+chmod 0755 /etc/jobarranger/
+chown zabbix:zabbix /etc/jobarranger/
+chmod 0644 /etc/jobarranger/jobarg_server.conf
+chown zabbix:zabbix /etc/jobarranger/jobarg_server.conf
+chmod 0644 /etc/jobarranger/jobarg_monitor.conf
+chown zabbix:zabbix /etc/jobarranger/jobarg_monitor.conf
+chmod 0755 /etc/jobarranger/extendedjob/
+chown zabbix:zabbix /etc/jobarranger/extendedjob/
+chmod 0755 /etc/jobarranger/extendedjob/jobarg_session_mysql
+chown zabbix:zabbix /etc/jobarranger/extendedjob/jobarg_session_mysql
+chmod 0755 /etc/jobarranger/alert
+chown zabbix:zabbix /etc/jobarranger/alert
+chmod 0755 /etc/jobarranger/monitor
+chown zabbix:zabbix /etc/jobarranger/monitor
+chmod 0755 /etc/jobarranger/locale
+chown zabbix:zabbix /etc/jobarranger/locale
+chmod 0644 /etc/jobarranger/locale/*
+chown zabbix:zabbix /etc/jobarranger/locale/*
+chmod 0755 /usr/bin/jobarg_exec
+chown root:root /usr/bin/jobarg_exec
+chmod 0755 /usr/bin/jobarg_get
+chown root:root /usr/bin/jobarg_get
+chmod 0755 /usr/bin/jobarg_release
+chown root:root /usr/bin/jobarg_release
+chmod 0755 /usr/bin/jobarg_joblogput
+chown root:root /usr/bin/jobarg_joblogput
+chmod 0755 /usr/sbin/jobarg_server_mysql
+chown root:root /usr/sbin/jobarg_server_mysql
+chmod 0755 /usr/sbin/jobarg_monitor_mysql
+chown root:root /usr/sbin/jobarg_monitor_mysql
+chmod 0644 /usr/lib/systemd/system/jobarg-server.service
+chown root:root /usr/lib/systemd/system/jobarg-server.service
+chmod 0644 /usr/lib/systemd/system/jobarg-monitor.service
+chown root:root /usr/lib/systemd/system/jobarg-monitor.service

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+  cd /usr/lib/systemd/system
+  /usr/bin/systemctl stop jobarg-server.service >/dev/null 2>&1 || :
+  /usr/bin/systemctl stop jobarg-monitor.service >/dev/null 2>&1 || :
+
+  if [ -L /usr/sbin/jobarg_server ]; then
+    rm -f /usr/sbin/jobarg_server || :
+  fi
+  if [ -L /etc/jobarranger/extendedjob/jobarg_session ]; then
+    rm -f /etc/jobarranger/extendedjob/jobarg_session || :
+  fi
+  if [ -L /usr/sbin/jobarg_monitor ]; then
+    rm -f /usr/sbin/jobarg_monitor || :
+  fi
+fi

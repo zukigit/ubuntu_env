@@ -1,0 +1,40 @@
+#!/bin/bash
+
+file="/etc/tmpfiles.d/jobarranger.conf"
+
+if [ ! -f "$file" ]; then
+	echo "# jobarranger runtime directory
+	d /run/jobarranger 0755 zabbix zabbix -" > "$file"
+	chmod 0644 /etc/tmpfiles.d/jobarranger.conf
+	chown root:root /etc/tmpfiles.d/jobarranger.conf
+fi
+
+# Set ownership and permissions
+chmod 0755 /var/log/jobarranger/
+chown zabbix:zabbix /var/log/jobarranger/
+chmod 0755 /var/run/jobarranger/
+chown zabbix:zabbix /var/run/jobarranger/
+chmod 0755 /var/lib/jobarranger/
+chown zabbix:zabbix /var/lib/jobarranger/
+chmod 0755 /var/lib/jobarranger/tmp/
+chown zabbix:zabbix /var/lib/jobarranger/tmp/
+chmod 0644 /etc/logrotate.d/jobarg-agentd
+chown root:root /etc/logrotate.d/jobarg-agentd
+chmod 0755 /etc/jobarranger/
+chown zabbix:zabbix /etc/jobarranger/
+chmod 0644 /etc/jobarranger/jobarg_agentd.conf
+chown zabbix:zabbix /etc/jobarranger/jobarg_agentd.conf
+chmod 0755 /etc/jobarranger/extendedjob/
+chown zabbix:zabbix /etc/jobarranger/extendedjob/
+chmod 0755 /etc/jobarranger/extendedjob/jobarg_command
+chown zabbix:zabbix /etc/jobarranger/extendedjob/jobarg_command
+chmod 0755 /etc/jobarranger/extendedjob/jafcheck.sh
+chown zabbix:zabbix /etc/jobarranger/extendedjob/jafcheck.sh
+chmod 0755 /etc/jobarranger/extendedjob/jafwait.sh
+chown zabbix:zabbix /etc/jobarranger/extendedjob/jafwait.sh
+chmod 0755 /etc/jobarranger/extendedjob/jareboot.sh
+chown zabbix:zabbix /etc/jobarranger/extendedjob/jareboot.sh
+chmod 0755 /usr/sbin/jobarg_agentd
+chown root:root /usr/sbin/jobarg_agentd
+chmod 0644 /usr/lib/systemd/system/jobarg-agentd.service
+chown root:root /usr/lib/systemd/system/jobarg-agentd.service

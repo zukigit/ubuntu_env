@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+  if [ -e /lib/systemd/system/jobarg-agentd.service ]; then
+    cd /lib/systemd/system
+    systemctl stop jobarg-agentd.service >/dev/null 2>&1 || :
+  fi
+  if [ -f /var/lib/jobarranger/jobarg_agentd.db -o \
+       -f /var/lib/jobarranger/jobarg_agentd.db.backup -o \
+       -f /var/lib/jobarranger/jobarg_agentd.db.jajournal ]; then
+    rm -f /var/lib/jobarranger/jobarg_agentd.*
+  fi
+fi

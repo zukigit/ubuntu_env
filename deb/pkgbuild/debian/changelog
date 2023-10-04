@@ -1,0 +1,7 @@
+jobarranger (6.0.3-1+debian11) stable; urgency=medium
+
+  * update to 6.0.3
+  * New job arranger manager web version
+  * Fixed bug
+
+ -- Daiwa Institute of Research Business Innovation Ltd <https://www.jobarranger.info/redmine/> Tue, 03 Oct 2023 17:05:23

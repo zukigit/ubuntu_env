@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+# Create Job Arranger user
+/usr/sbin/useradd -c "Job Arranger user" -s /sbin/nologin -r -d /etc/zabbix zabbix 2> /dev/null || :
+
+# If upgrading from version 1, remove old database files
+if [ "$1" = "configure" ]; then
+    if [ -f %{_sharedstatedir}/jobarranger/jobarg_agentd.db -o \
+         -f %{_sharedstatedir}/jobarranger/jobarg_agentd.db.backup -o \
+         -f %{_sharedstatedir}/jobarranger/jobarg_agentd.db.jajournal ];then
+        rm -f %{_sharedstatedir}/jobarranger/jobarg_agentd.*
+    fi
+fi
+
+exit 0

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+# Back up the existing jobarg_server.conf and jobarg_monitor.conf files, if any
+if [ -f /etc/jobarranger/jobarg_server.conf ]; then
+	mv /etc/jobarranger/jobarg_server.conf /etc/jobarranger/jobarg_server.debconf
+	echo 'warning: /etc/jobarranger/jobarg_server.conf saved as /etc/jobarranger/jobarg_server.debconf'
+fi
+
+if [ -f /etc/jobarranger/jobarg_monitor.conf ]; then
+	mv /etc/jobarranger/jobarg_monitor.conf /etc/jobarranger/jobarg_monitor.debconf
+	echo 'warning: /etc/jobarranger/jobarg_monitor.conf saved as /etc/jobarranger/jobarg_monitor.debconf'
+fi
+
+
+exit 0

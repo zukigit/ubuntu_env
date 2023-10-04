@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Add Job Arranger user
+/usr/sbin/useradd -c "Job Arranger user" \
+        -s /sbin/nologin -r -d /etc/zabbix zabbix 2> /dev/null || :
+
+exit 0

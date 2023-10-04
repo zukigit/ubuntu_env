@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+# Back up the existing jobarg_agentd.conf file, if any
+if [ -f /etc/jobarranger/jobarg_agentd.conf ]; then
+	mv /etc/jobarranger/jobarg_agentd.conf /etc/jobarranger/jobarg_agentd.debconf
+	echo 'warning: /etc/jobarranger/jobarg_agentd.conf saved as /etc/jobarranger/jobarg_agentd.debconf'
+fi
+
+exit 0
