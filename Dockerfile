@@ -5,6 +5,7 @@ RUN apt install build-essential binutils lintian debhelper dh-make devscripts -y
 RUN apt-get install default-libmysqlclient-dev libpq-dev postgresql-client libssh2-1-dev default-mysql-client -y
 RUN apt-get autoremove -y
 
+COPY sleep10.sh /tmp
 COPY json-c-0.9.tar.gz /tmp
 COPY libtar-1.2.20-src-11.31.tar.gz /tmp
 
@@ -19,3 +20,5 @@ RUN cd /tmp/json-c-0.9/ && \
 RUN cd /tmp/libtar-1.2.20/ && \
     ./configure --with-pic &&  \
     make && make install
+
+CMD [ "./tmp/sleep10.sh" ]
